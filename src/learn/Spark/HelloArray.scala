@@ -1,5 +1,7 @@
 package learn.Spark
 
+
+import org.apache.spark.mllib.classification.LogisticRegressionWithSGD
 /*
  * 大数据技术是数据的集合以及对数据结合的操作技术的统称，具体来说：
  * 1、数据集合：会涉及数据的搜集、存储等，搜集会有很多技术，存储现在比较经典的是使用Hadoop，也有很多情况使用Kafka
@@ -25,43 +27,46 @@ package learn.Spark
  * 9、集合的操作往往可以通过丰富的操作算子，例如filter来过滤需要条件的元素，例如map来进行每一个元素的加工；
  */
 object HelloArray {
-  def main(args: Array[String]): Unit = {
-//    val array=new Array[Int](5)
-		  val array=Array[Int](1,2,3,4,5)//在这里可以去掉[Int]这个泛类型，是因为Scala有类型推导的能力，而我们已经传进了当前数组array的值，所以可以根据值来推导出类型；
-//    val array=Array.apply(1,2,3,4,5)
-    array(0)=10//数据的索引下标是从0开始的
-//    array(5)=1//数组下标越界，会出现java.lang.ArrayIndexOutOfBoundException
-  for (item<-array) println(item)  
+   def main(args: Array[String]): Unit = {
+//      val array=new Array[Int](5)
+      val array=Array[Int](1,2,3,4,5)//在这里可以去掉[Int]这个泛类型，是因为Scala有类型推导的能力，而我们已经传进了当前数组array的值，所以可以根据值来推导出类型；
+      // val array=Array.apply(1,2,3,4,5)
+      array(0)=10//数据的索引下标是从0开始的
+//      array(5)=1//数组下标越界，会出现java.lang.ArrayIndexOutOfBoundException
+      for (item<-array) println(item)
+
+      val names=Array("scala",2,"spark")
+      for (item<-names) println(item)
+
+      import scala.collection.mutable.ArrayBuffer
+      val arrayBuffer=ArrayBuffer[Int]()
+      arrayBuffer+=1
+      arrayBuffer+=2
+      arrayBuffer+=(3,4,5,6,7)
+      arrayBuffer++=Array(1,2,3)
+      arrayBuffer.insert(arrayBuffer.length-3,100,1000)//在指定位置加入元素
+      arrayBuffer.remove(arrayBuffer.length-3)//删除倒数第三个元素
+      arrayBuffer.toArray//当需要多线程并发操作时，把ArrayBuffer转换成为Array就非常重要
+      for (item<-arrayBuffer) println(item)
+
+      for(i <- array.indices) print(array(i)+" ")//print和println的区别是print是不换行打印，println是换行打印
+      array.indices.map(_ + 2)
+
+      println("good")
+      println(array.mkString(","))
+      for(i <- 0 until (array.length, 2)) print(array(i)+" ")
+      println
+      for(i <- array.indices.reverse) print(array(i)+" ")
+      println
+      println("Max = "+array.max)
+      println("Min = "+array.min)//array.sum
+	   scala.util.Sorting.quickSort(array)//对数组进行升叙排序，内容变成来2，3，4，5，10
+	   println("quitsort = "+array(0))
+	   println(array.mkString(","))
+      println(array.mkString("*****",",","*****"))
   
-  val names=Array("scala",2,"spark")
-  for (item<-names) println(item) 
-  
-  import scala.collection.mutable.ArrayBuffer
-  val arrayBuffer=ArrayBuffer[Int]()
-  arrayBuffer+=1
-  arrayBuffer+=2
-  arrayBuffer+=(3,4,5,6,7)
-  arrayBuffer++=Array(1,2,3)
-  arrayBuffer.insert(arrayBuffer.length-3,100,1000)//在指定位置加入元素
-  arrayBuffer.remove(arrayBuffer.length-3)//删除倒数第三个元素
-  arrayBuffer.toArray//当需要多线程并发操作时，把ArrayBuffer转换成为Array就非常重要
-  for (item<-arrayBuffer) println(item) 
-  
-  for(i <-0 until array.length) print(array(i)+" ")//print和println的区别是print是不换行打印，println是换行打印
-  println
-  for(i <-0 until (array.length,2)) print(array(i)+" ")
-  println
-  for(i <-(0 until array.length).reverse) print(array(i)+" ")
-  println
-  println("Max = "+array.max)
-	println("Min = "+array.min)//array.sum
-	scala.util.Sorting.quickSort(array)//对数组进行升叙排序，内容变成来2，3，4，5，10
-	println("quitsort = "+array(0))
-	println(array.mkString(","))
-  println(array.mkString("*****",",","*****"))
-  
-  val arrayAddedOne= for (item<-array) yield item+1
-  println(arrayAddedOne.mkString(" "))
+      val arrayAddedOne= for (item<-array) yield item+1
+      println(arrayAddedOne.mkString(" "))
 	
 	val arrayEven= for (item<-array if item%2==0) yield item+1 //提取偶数
 	
