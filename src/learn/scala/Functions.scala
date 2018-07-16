@@ -79,11 +79,11 @@ object Functions {
 
    //即使文件不存在，现在也不好报错，只会在使用该变量的时候，才报错
    //变量lines的类型是lazy
-   lazy val lines=fromFile("/Users/lj/a.txt").mkString
+   lazy val lines:String=fromFile("/Users/lj/a.txt").mkString
 
 //   print(lines)//调用lines变量，如果没有整个文件，则报错
 
-   def linees=fromFile("/Users/lj/a.txt").mkString
+   def linees:String=fromFile("/Users/lj/a.txt").mkString
    /*
    * Scala要求必须给出所有的参数的类型,scala的函数如果用Unit声明的话，那么就是没有返回值
    * */
@@ -134,12 +134,12 @@ object Functions {
    }
 
    def varparam1(nums:Int*):Int={
-      if(nums.length==0)0//判断nums的长度
+      if(nums.isEmpty)0//判断nums的长度
       else nums.head+varparam1(nums.tail:_*)//nums.head 调用nums的第一个参数
    }
 
    //返回了"hello,"+name
-   def sayhello1(name:String)="hello,"+name
+   def sayhello1(name:String):String="hello,"+name
    //定义过程
    //没有返回"hello"+name
    def sayhello2(name:String){print("hello,"+name);"hello"+name}

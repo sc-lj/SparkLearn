@@ -38,14 +38,14 @@ object LearnObject {
    private var eyeNum=2
    print("this is object")
 
-   def geteyeNum=eyeNum
+   def geteyeNum:Any=eyeNum
 
    def apply(name:String,age:Int)=new LearnObject(name,age)
 }
 
 
 class LearnObject(val name:String,val age:Int){
-   def sayHello=println("Hi,"+name+", Iguess you are "+age+"years old!"+", and usually you must have "+LearnObject.eyeNum+"eyes")
+   def sayHello:Any=println("Hi,"+name+", Iguess you are "+age+"years old!"+", and usually you must have "+LearnObject.eyeNum+"eyes")
 }
 
 //这两者类似，都能实现同样的功能，但是下面一种比较简洁
@@ -62,7 +62,7 @@ abstract class Hello(var message:String){
 }
 
 object Hellolmpl extends Hello("hello"){
-   override def sayHello(name: String)= {
+   override def sayHello(name: String):Unit= {
       println(message+","+name)
    }
 }

@@ -86,7 +86,7 @@ object ClassInherit {
       val age:Int=24
       protected val height:Int=124
       protected[this] val weight:Int=68
-      def getName=name
+      def getName:String=name
 
       def sex="M"
    }
@@ -94,14 +94,14 @@ object ClassInherit {
    class Students extends Person{
       private var score:String="A"
 
-      def getScore=score
+      def getScore:String=score
 
       //不能用override覆盖父类的name
       override val age: Int = 30
 
       override def sex: String = "this person is "+super.sex+", age is "+age
 
-      def getweight="this person "+getName+"'s weight is "+weight
+      def getweight:String="this person "+getName+"'s weight is "+weight
 
       //这种情况下，不能使用s.weight，因为s已经是另外一个类Students的实例了，被this修饰过的，只能在其子类中使用，不被另外一个子类使用
       //def getheight(s:Students)="this person "+s.getName+"'s height is "+weight+", his/her weight is "+s.weight

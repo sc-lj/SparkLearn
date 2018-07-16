@@ -63,13 +63,13 @@ object LearnArray {
       val c=a.toBuffer
 
       //遍历Array和ArrayBuffer
-      for(i<-0 until(b.length))println(b(i))
+      for(i<- b.indices)println(b(i))
 
       //跳跃遍历
-      for(i<-0 until(b.length,2))println(b(i))
+      for(i<-(b.indices,2))println(b(i))
 
       //从尾部遍历
-      for(i<-(0 until b.length).reverse) println(b(i))
+      for(i<-b.indices.reverse) println(b(i))
 
       //
       for(e<-b)println(e)
@@ -138,12 +138,12 @@ object LearnArray {
       val a=ArrayBuffer(1,2,3,4,5,-1,-2,-3,6,-5,-4)
       var foundFirstNegative=false
       //||表示或的意思；只要又一个是true就是true；只有是true的才进入到yield里面
-      var keepindex=for(i<-0 until a.length if !foundFirstNegative||a(i)>=0)yield {
+      var keepindex=for(i<-a.indices if !foundFirstNegative||a(i)>=0)yield {
          if(a(i)<0) foundFirstNegative=true
          i
       }
       //将所有需要保留的移动前面，最后在截断，删除
-      for(i<-0 until(keepindex.length)){a(i)=a(keepindex(i))}
+      for(i<-keepindex.indices){a(i)=a(keepindex(i))}
       a.trimEnd(a.length-keepindex.length)
       println(a)
    }

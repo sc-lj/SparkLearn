@@ -80,7 +80,7 @@ object ObjectOriented {
       //定义方法
       def sayhello(){println("Hello,"+name)}
 
-      def getName=name
+      def getName:String=name
    }
 
 
@@ -100,7 +100,7 @@ object ObjectOriented {
    class Students{
       private var myName="Jack"
       //定义getter方法
-      def name="your name is "+myName
+      def name:String="your name is "+myName
       //定义setter方法，在名称下面加个_，注意不能有空格
       def name_=(newValue:String){
          println("you cannot edit your name!!!")
@@ -123,7 +123,7 @@ object ObjectOriented {
       }
 
       //定义的是getter方法
-      def getName="My name is "+name
+      def getName:String="My name is "+name
 
    }
 

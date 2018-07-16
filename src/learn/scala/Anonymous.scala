@@ -25,13 +25,13 @@ object Anonymous {
 
    }
    //函数greeting中定义的sayHello返回的类型要与匿名类重写的函数返回的类型一样。
-   def greeting(p: Person{def sayHello():String})={
+   def greeting(p: Person{def sayHello():String}):Unit={
       println(p.age)
       println(p.sayHello)
    }
 
    class Person(protected val name: String,var age:Int){
-      def sayHello()={
+      def sayHello():String={
          "Hello ,"+name
       }
    }
