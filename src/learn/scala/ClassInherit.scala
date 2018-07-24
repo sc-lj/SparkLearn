@@ -30,6 +30,8 @@ package learn.scala
   *
   * 使用模式匹配，功能性上来说，与islnstanceOf一样，也是判断主要是该类以及该类的子类的对象即可，不是精准判断的
   *
+  *
+  * protected 关键字
   *scala 中的关键字protected关键字来修饰field和method，这样在子类中就不需要super关键字了，直接就可以访问field和method
   * 还可以使用protected[this]，则只能在当前子类对象中访问父类的field和method，无法通过其他子类对象访问父类的field和method
   *
@@ -39,9 +41,6 @@ package learn.scala
   * 因此子类的辅助constructor是一定不可能直接调用父类的constructor的。
   * 只能在子类的主constructor中调用父类的constructor。
   *注意：如果是父类中接收的参数，比如name和age，子类中接收时，就不要用任何val或者var来修饰了，否则会认为是子类要覆盖父类的field，就要加override关键字
-  *
-  *
-  *
   *
   *
   */

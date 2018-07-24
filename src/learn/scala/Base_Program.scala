@@ -101,6 +101,17 @@ object Base_Program {
          println(m1)
          m1-=1
       }
+
+
+     // do...while 循环，会先执行do语句快中的语句，后在判断while中条件是否满足，如果满足，继续执行do里面的语句快
+      var ml=20
+      do{
+        println(ml)
+        ml-=1
+      }while(ml>0)
+
+
+
       //scala 没有for循环，只能使用while循环,scala中有简易的for循环
       var mn=10
       println("循环")
@@ -119,6 +130,28 @@ object Base_Program {
             nb-=1
          }
       }
+
+
+      //中断嵌套循环
+      var a = 0
+      var b = 0
+      val numList1 = List(1,2,3,4,5)
+      val numList2 = List(11,12,13)
+
+
+      breakable {
+         for( a <- numList1){
+            println( "Value of a: " + a )
+            breakable {
+               for( b <- numList2){
+                  println( "Value of b: " + b )
+                  if( b == 12 ){
+                      break
+                  }
+               }
+            } // 内嵌循环中断
+          }
+      } // 外部循环中断
 
       //多重for循环
       for(i<-1 to 9;j<-1 to 9){
