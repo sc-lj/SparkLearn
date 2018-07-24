@@ -9,6 +9,9 @@ package learn.scala
   * 在Scala中，提供了lazy值的特性，该特性能使一个变量只有在使用的时候，变量对应的表达式才会发生计算，
   * 这种特性对于特别耗时的计算操作特别有用，比如打开文件进行IO、进行网络IO等。
   *
+  * 在Scala中方法(method)和函数(function)是有区别的；
+  *
+  *
   *
   */
 
@@ -33,6 +36,9 @@ object FunctionsMethod {
 
       println(varparam1())
       println(varparam1(1 to 5:_*))
+
+      //定义方法
+      def m1(x:Int) = x+3//
 
 
       //三个过程函数
