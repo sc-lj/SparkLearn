@@ -16,7 +16,7 @@ import java.io.IOException
 
 import scala.io.Source._
 
-object Functions {
+object FunctionsMethod {
    def main(args: Array[String]): Unit = {
 
       var age=sayHello("lj",23)
@@ -44,6 +44,19 @@ object Functions {
 //      exception()
 //      exception1()
       exception2()
+
+      // 定义匿名函数
+      var inc = (x:Int) => x+1
+      var x = inc(7)-1//调用匿名函数
+
+     //在匿名函数中定义多个参数：
+      var mul=(x:Int,y:Int)=>x+y
+      println(mul(3, 4))
+
+      //不给匿名函数设置参数
+      var userDir=()=>{ System.getProperty("user.dir") }
+      println( userDir() )
+
 
    }
 
