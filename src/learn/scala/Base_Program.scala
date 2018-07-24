@@ -3,6 +3,14 @@ package learn.scala
 import scala.util.control.Breaks._
 /**
   * Created by lj on 2018/7/12.
+  *
+  * scala 中支持的数据类型有：Byte，Short，Int，Long，Float（32位IEEE754单精度浮点数），Double（64位IEEE754单精度浮点数），Char，
+  * String，Boolean，Unit（表示无值，用作不返回任何结果的方法的结果类型。Unit只有一个实例值，写成()。），
+  * Null（	null 或空引用），Nothing（Nothing类型在Scala的类层级的最低端；它是任何其他类型的子类型。），Any（	Any是所有其他类的超类），AnyRef（AnyRef类是Scala里所有引用类(reference class)的基类）
+  *
+  *
+  *
+  *
   */
 object Base_Program {
    def main(args: Array[String]): Unit = {
@@ -14,7 +22,7 @@ object Base_Program {
       //j=3 //报错，j不可改变
       i=1
       //在实际中，建议使用val声明变量，毕竟在大量的网络传输过程中，如果使用var，会担心值被错误的改动
-
+      println(i)
 
       //手动指定变量的类型
       // 声明字符变量
@@ -23,14 +31,25 @@ object Base_Program {
       //声明任意类型
       var n:Any=1
 
+      var gg0=23433.23234//Double型
+      var gg:Double=23433.23234//Double型
+      // 当声明一个32位的单精度浮点数的时候，如果有小数点，后面必须跟f或者F，表示是Float类型
+      var gg1:Float=13243.234F
+      var gg2:Float=13243
+      var gg3=13243F//Float型
+
+      //声明整型变量
+      var in=234//Int型
+      var in1:Int=234//Int型
+      var in2=234L//Long型
+      var in3:Long=2324//Long型
+
+
       //声明多个
       var name1,name2:Any="hadoop"
 
-      println(i)
+      var myvar=("string",1)
 
-      /*
-      * sacla的数据类型有Byte、Char、Short、Int、Long、Float、Double、Boolean。
-      * */
 
       //var name3:Char="rg"
 
@@ -61,10 +80,10 @@ object Base_Program {
          a1 = "children"
       }
       else b1="adult"
-      println(ab)
+      println(a1,b1)
 
       var (a,b,c):(Int,Int,Int)=(1,2,3)
-      var g = if(a<=1) {b=b+1;c+1}//g的值就是c+1
+      var g = if(a<=1) {b=b+1;c+1}//g的值就是c+1,即最后一个行（没有被赋予变量的）
       printf("g's number is %s",g)
       //printf 用于格式化；println打印时h会加一个换行符；print打印时不会加换行符
 
