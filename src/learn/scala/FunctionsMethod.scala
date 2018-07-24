@@ -9,15 +9,18 @@ package learn.scala
   * 在Scala中，提供了lazy值的特性，该特性能使一个变量只有在使用的时候，变量对应的表达式才会发生计算，
   * 这种特性对于特别耗时的计算操作特别有用，比如打开文件进行IO、进行网络IO等。
   *
-  * 在Scala中方法(method)和函数(function)是有区别的；
-  *
+  * 在Scala中方法(method)和函数(function)是有区别的：
+  * 1、方法可以作为一个表达式的一部分出现（调用函数并传参），但是方法（带参方法）不能作为最终的表达式，
+  * 2、参数列表对于方法是可选的，但是对于函数是强制的；即方法可以没有参数列表，参数列表也可以为空。但是函数必须有参数列表（也可以为空）
+  * 3、方法名意味着方法调用，函数名只是代表函数自身。如果要强制调用一个函数，你必须在函数名后面写()。
+  * 4、在scala中很多高级函数，如map(),filter()等，都是要求提供一个函数作为参数。但是我们又可以提供一个方法，这是因为如果期望出现函数的地方我们提供了一个方法的话，该方法就会自动被转换成函数。
   *
   *
   */
 
 import java.io.IOException
-
 import scala.io.Source._
+
 
 object FunctionsMethod {
    def main(args: Array[String]): Unit = {
@@ -37,8 +40,32 @@ object FunctionsMethod {
       println(varparam1())
       println(varparam1(1 to 5:_*))
 
-      //定义方法
-      def m1(x:Int) = x+3//
+      //定义带参数的方法
+      def m1(x:Int) = x+3//其类型是Int型
+      //定义一个函数
+      val f=(x:Int)=>x*3
+      //带参数的方法不能作为最终表达式出现，函数可以作为最终表达式出现
+
+      //定一个参数列表为空的方法
+      def m2()="spark"
+      //定义一个没有参数列表的方法
+      def m3="spark"
+
+      //定义一个参数列表为空的函数
+      val f1=()=>"spark"
+      //无法定义一个没有参数列表的函数
+      //val f2= =>"spark"
+
+      val myList = List(3,56,1,4,72)
+      //给map传递进一个函数
+      myList.map(x=>x*2)
+      //给map()提供一个方法作为参数
+      val fun=(x:Int)=>x*2
+      myList.map(fun)
+
+      //将方法强制转换成函数
+      val f3=m1 _
+      println(f3(3))//输出：6
 
 
       //三个过程函数
