@@ -11,6 +11,7 @@ package learn.scala
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Sorting.quickSort
+import Array.{concat,ofDim}
 
 object LearnArray {
    def main(args: Array[String]): Unit = {
@@ -19,6 +20,13 @@ object LearnArray {
       //ArrayTransfer()
       //filternegative()
       improvementfilternegative()
+
+      // 合并数组
+      var myList1 = Array(1.9, 2.9, 3.4, 3.5)
+      var myList2 = Array(8.9, 7.9, 0.4, 1.5)
+
+      var myList3 =  concat( myList1, myList2)
+      mulArray()
 
    }
 
@@ -33,6 +41,18 @@ object LearnArray {
       a(0)//取得a中的第一个元素,Array的index是从0开始的;
       b(1)//取b第二个元素
       //这种形式只返回了b，没有返回a
+   }
+
+   // 生成多维数组
+   def mulArray():Any={
+      var matrix= ofDim[Int](3,4)
+      for(i<-0 to 2){
+        for(j<-0 to 3){
+          matrix(i)(j)=j
+        }
+      }
+      val matrix1=matrix.toArray
+      matrix1
    }
 
    def initArrayBuffer():Any={
@@ -66,7 +86,7 @@ object LearnArray {
       for(i<- b.indices)println(b(i))
 
       //跳跃遍历
-      for(i<-(b.indices,2))println(b(i))
+      for(i<-0 until(b.length,2))println(b(i))
 
       //从尾部遍历
       for(i<-b.indices.reverse) println(b(i))

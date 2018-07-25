@@ -133,19 +133,19 @@ object Base_Program {
 
 
       //中断嵌套循环
-      var a = 0
-      var b = 0
+      var a11 = 0
+      var b11 = 0
       val numList1 = List(1,2,3,4,5)
       val numList2 = List(11,12,13)
 
 
       breakable {
-         for( a <- numList1){
-            println( "Value of a: " + a )
+         for( a11 <- numList1){
+            println( "Value of a11: " + a11 )
             breakable {
-               for( b <- numList2){
-                  println( "Value of b: " + b )
-                  if( b == 12 ){
+               for( b11 <- numList2){
+                  println( "Value of b11: " + b11 )
+                  if( b11 == 12 ){
                       break
                   }
                }
