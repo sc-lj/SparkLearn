@@ -10,8 +10,8 @@ object WordCount {
       // 一个是应用名，这里是wordcount，当连接到一个集群时，这个值可以帮助你在集群管理器的用户界面中找到你的应用。
       val conf=new SparkConf().setMaster("local").setAppName("wordcount")
       val sc =new SparkContext(conf)
-      val inputfile = args(0)  "/Users/apple/IdeaProjects/SparkLearn/src/learn/Spark/new_sohu.txt"
-      val outputFile = args(1)
+      val inputfile = try{args(0)}catch{case _:Exception=>"/Users/apple/IdeaProjects/SparkLearn/src/learn/Spark/new_sohu.txt"}
+      val outputFile = try{args(1)}catch {case _:Exception=>""}
 
       //读取传人的文件
       val input=sc.textFile(inputfile)
