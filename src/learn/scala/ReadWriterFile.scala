@@ -22,7 +22,7 @@ object ReadWriterFile {
     }
 
     def writeFile(): Unit ={
-        //文件保存包 src 文件夹下的，而不是保存在该代码所在文件夹，而是该项目所在的文件夹下的，src
+        //文件保存包 SparkLearn 文件夹下的，而不是保存在该代码所在文件夹，而是该项目所在的文件夹下的，SparkLearn
         val out=new PrintWriter("out.txt")
         for (i<-0 to 10) out.println(i)
         out.close()
