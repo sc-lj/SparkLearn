@@ -135,4 +135,8 @@ object BasicStatistics {
         println(testResult2)
     }
 
+    def StreamingSignificanceTesting(): Unit ={
+
+    }
+
 }
