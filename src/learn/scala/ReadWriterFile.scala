@@ -15,6 +15,8 @@ import scala.io.Source
 import java.io.RandomAccessFile
 import java.io.{File,FileInputStream}
 
+import org.apache.spark.{SparkConf,SparkContext}
+
 object ReadWriterFile {
     def main(args: Array[String]): Unit = {
 
@@ -73,4 +75,26 @@ object ReadWriterFile {
         val source2 = Source.fromString("Hello, World!")//从给定的字符串读取——对调试很有用
         val source3 = Source.stdin//从标准输入读取
     }
+
+
+    //scala读取csv文件，
+    //需要先定义一个类来读取csv文件的header
+    class SimpleCsvHeader(header:Array[String]) extends Serializable{
+        val index=header.zipWithIndex.toMap
+
+        def apply(array: Array[String],key:String):String=array(index(key))
+    }
+
+    def readCsvFile(filename:String): Unit ={
+        val conf=new SparkConf().setMaster("local").setAppName("ReadWriterFile")
+        val sc=new SparkContext(conf)
+        val csv=sc.textFile("out.csv")
+        val data=csv.map(line=>line.split(",").map(elem=>elem.trim))
+        val header=new SimpleCsvHeader(data.take(1)(0))// 取出第一行来创建header
+        val rows=data.filter(line=>header(line,"user")!="user")// 去掉header
+        val users=rows.map(row=>header(row,"user"))
+        val usersByHits=rows.map(row=>header(row,"user")->header(row,"hits").toInt)
+    }
+
+
 }
