@@ -44,7 +44,27 @@ MLlib 支持的分布式矩阵是一种保存有长类型的行和列指针以�
 
    分块矩阵可由索引行矩阵IndexedRowMatrix或坐标矩阵CoordinateMatrix调用toBlockMatrix()方法来进行转换，该方法将矩阵划分成尺寸默认为1024×1024的分块，可以在调用toBlockMatrix(rowsPerBlock, colsPerBlock)方法时传入参数来调整分块的尺寸。
     
-    
-    
 
+# Basic Statistics
+
+## Summary statistics
+MLlib是对列数据进行基本统计的。
+
+## Correlations
+MLlib目前支持Pearson和Spearman相关系数的计算。而且可以对多列进行两两列的相关系数进行计算。
+
+## Stratified sampling
+MLlib支持两种形式的分层抽样：sampleByKey和sampleByKeyExact。处理的数据以健值对的形式存在，如：(1, 'a')。键就是label，值就是特定的属性。
+
+sampleByKey方法通过提供的参数，即每个键需要的被采样的比例，来对数据进行随机抽样。
+
+sampleByKeyExact比sampleByKey中使用的每层简单随机抽样需要更多的资源，但是会提供99.99％置信度的精确抽样大小。 python目前不支持sampleByKeyExact。
+
+## Hypothesis testing
+MLlib支持对数据的独立性和拟合优度的Pearson’s chi-squared ( χ2)检验 。输入数据类型决定了是进行独立性假设检验还是拟合优度的检验。
+进行独立性检验需要输入的是 Matrix类型，进行拟合优度检验需要输入的是 Vector类型。
+
+此外，spark.mllib提供了Kolmogorov-Smirnov（KS）检验的单样本，双侧实现，用于概率分布的相等性。 通过提供理论分布的名称（目前仅支持正态分布）及其参数，或根据给定的理论分布计算累积分布的函数，用户可以测试其假设，即他们的样本是从 分配。 在用户针对正态分布（distName =“norm”）进行测试但不提供分发参数的情况下，测试初始化为标准正态分布并记录适当的消息。
+
+## Streaming Significance Testing
 
