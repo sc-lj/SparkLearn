@@ -17,7 +17,8 @@ import org.apache.spark.mllib.stat.test.ChiSqTestResult
 object BasicStatistics {
    def main(args: Array[String]): Unit = {
 //      SummaryStatistics()
-       StratifiedSampling()
+//       StratifiedSampling()
+       HypothesisTesting()
    }
 
    val conf=new SparkConf().setMaster("local").setAppName("BasicStatistics")
@@ -114,7 +115,7 @@ object BasicStatistics {
         val featureTestResults:Array[ChiSqTestResult]=Statistics.chiSqTest(obs)
         featureTestResults.zipWithIndex.foreach{
             case (k,v)=>
-                println("columns:$(v+1):")
+                println(s"columns${(v+1)}:")
                 println(k)
         }// summary of the test
 
