@@ -64,7 +64,23 @@ sampleByKeyExact比sampleByKey中使用的每层简单随机抽样需要更多�
 MLlib支持对数据的独立性和拟合优度的Pearson’s chi-squared ( χ2)检验 。输入数据类型决定了是进行独立性假设检验还是拟合优度的检验。
 进行独立性检验需要输入的是 Matrix类型，进行拟合优度检验需要输入的是 Vector类型。
 
+拟合优度是用来检验观测数与依照某种假设或分布模型计算得到的理论数之间一致性的一种统计假设检验，以便判断该假设或模型是否与实际观测数相吻合
+
 此外，spark.mllib提供了Kolmogorov-Smirnov（KS）检验的单样本，双侧实现，用于概率分布的相等性。 通过提供理论分布的名称（目前仅支持正态分布）及其参数，或根据给定的理论分布计算累积分布的函数，用户可以测试其假设，即他们的样本是从 分配。 在用户针对正态分布（distName =“norm”）进行测试但不提供分发参数的情况下，测试初始化为标准正态分布并记录适当的消息。
 
-## Streaming Significance Testing
+## Random data generation
+spark.mllib支持使用i.i.d.生成随机RDD。 从给定分布绘制的值：均匀，标准正态或泊松分布。RandomRDDs 提供工厂方法来生成随机double型RDD或向量RDD。 
+
+## Kernel density estimation
+核密度估计  是一种用于可视化经验概率分布的技术，而不需要对所观察到的样本的特定分布进行假设。 它计算在给定集合点评估的随机变量的概率密度函数的估计。 它通过在特定点表达PDF的经验分布来实现这一估计，这是以每个样本为中心的正态分布的PDF平均值.
+
+KernelDensity 提供了从RDD样本计算核密度估计的方法。 以下示例演示如何执行此操作。
+
+
+# Classification and Regression
+## Linear Methods
+
+
+
+
 
