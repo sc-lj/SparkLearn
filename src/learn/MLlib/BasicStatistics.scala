@@ -12,13 +12,17 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkContext,SparkConf}
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.stat.test.ChiSqTestResult
+import org.apache.spark.mllib.random.RandomRDDs._
+import org.apache.spark.mllib.stat.KernelDensity
 
 
 object BasicStatistics {
    def main(args: Array[String]): Unit = {
 //      SummaryStatistics()
 //       StratifiedSampling()
-       HypothesisTesting()
+//       HypothesisTesting()
+
+      KernelDensityEstimation()
    }
 
    val conf=new SparkConf().setMaster("local").setAppName("BasicStatistics")
@@ -135,7 +139,26 @@ object BasicStatistics {
         println(testResult2)
     }
 
-    def StreamingSignificanceTesting(): Unit ={
+    def RandomDataGeneration(): Unit ={
+       //Generate a random double RDD that contains 1 million i.i.d. values drawn from
+       // the standard normal distribution `N(0, 1)`, evenly distributed in 10 partitions.
+       val u=normalRDD(sc,1000000L,0)
+
+       //Apply a transform to get a random double RDD following `N(1, 4)`.
+       val v=u.map(x=>1.0+2.0+x)
+    }
+
+    def KernelDensityEstimation(): Unit ={
+       val data:RDD[Double]=sc.parallelize(Seq(1, 1, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 9))
+       // Construct the density estimator with the sample data and a standard deviation for the Gaussian kernels
+
+      val kd=new KernelDensity()
+               .setSample(data)
+               .setBandwidth(3.0)
+
+       // Find density estimates for the given values
+       val density=kd.estimate(Array(-1.0, 2.0, 5.0))
+       println(density)
 
     }
 
