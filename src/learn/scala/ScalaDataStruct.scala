@@ -2,7 +2,7 @@ package learn.scala
 
 object ScalaDataStruct {
    def main(args: Array[String]): Unit = {
-      genDict()
+      genIterator()
 
    }
 
@@ -24,9 +24,46 @@ object ScalaDataStruct {
       //获取第二个元素
       println(intList(1))
 
+      //取列表第二个元素
+      println(intList.tail.head)
+
+      //取除最后一个元素外的元素，返回的是列表
+      println(intList.init)
+
+      //取列表最后一个元素，返回元素值
+      println(intList.last)
+
+      //列表元素倒置，返回新列表
+      val newIntList=intList.reverse.tail
+
       //在列表的头部增加一个元素，0
       //该操作不会改变intList列表
       val intListOther = 0::intList
+
+      //在列表的头部增加一个元素，5
+      //该操作不会改变intList列表
+      val intList1=5+:intList
+
+      //在列表的头部增加一个元素，List(5,4)
+      val intList2=List(5,4) +: intList
+
+      //不能写成如下形式
+      //val intList11=intList+:5
+
+      //在列表尾部加个元素，5
+      val intList3=intList:+5
+
+      //drop丢弃前n个元素,返回新列表; dropRight(n: Int): List[A] 丢弃最后n个元素，并返回新列表
+      val newintList3=intList3.drop(2)
+
+      //获取前n个元素;takeRight(n: Int): List[A] 丢弃最后n个元素，并返回新列表
+      val newIntList2=intList2.take(3)
+
+      //去除列表的重复元素，并返回新列表
+      val newIntList1=intList1.distinct
+
+      //判断是否为空
+      println(intList3.isEmpty)
 
       //::操作符是右结合的，因此，如果要构建一个列表List(1,2,3)，实际上也可以采用下面的方式,其中Nil表示空列表。
       val initList = 1::2::3::Nil
@@ -34,8 +71,26 @@ object ScalaDataStruct {
       //:::操作符对不同的列表进行连接得到新的列表,List(1, 2, 3, 3, 4, 5, 6)
       val list1=List(1,2,3)
       val list2=List(3,4,5,6)
-      val newlist=list1:::list2
+      val newlist=list1:::list2//list连接
+      val newlist1=List.concat(list1,list2) //list连接
       println(newlist.sum)//求和
+      println(newlist.contains(2))//检测列表中是否包含指定的元素
+
+      val newList=newlist.sorted//排序
+
+      //dropWhile(p: (A) => Boolean): List[A]   从左向右丢弃元素，直到条件p不成立
+      //endsWith[B](that: Seq[B]): Boolea   检测列表是否以指定序列结尾
+      //startsWith[B](that: Seq[B], offset: Int): Boolear   检测列表在指定位置是否包含指定序列
+      //indexOf(elem: A, from: Int): Int 从指定位置 from 开始查找元素第一次出现的位置
+      // intersect(that: Seq[A]): List[A] 计算多个集合的交集
+
+      var b=List("woe","wow","adabosting","bostong","randormforest")
+      println(b.filter(_.length>=4))
+      //等价于
+      println(b.filter(x=>x.length>=4))
+      println(b.indexOf("bost",3))
+
+
    }
 
    def genSet(): Unit ={
@@ -94,5 +149,36 @@ object ScalaDataStruct {
       //遍历映射的值
       for (v<-university1.values)println(v)
    }
+
+
+   def genIterator(): Unit ={
+      //在Scala中，迭代器（Iterator）不是一个集合，但是，提供了访问集合的一种方法。当构建一个集合需要很大的开销时（比如把一个文件的所有行都读取内存），迭代器就可以发挥很好的作用。
+      //迭代器包含两个基本操作：next和hasNext。next可以返回迭代器的下一个元素，hasNext用于检测是否还有下一个元素。
+      val iter=Iterator("Hadoop","Spark","Scala")
+      while (iter.hasNext){
+         println(iter.next())
+      }
+      val iter1=Iterator("Hadoop","Spark","Scala")
+      for (elem<-iter1){
+         println(elem)
+      }
+
+      val iter2=Iterator(List("Hadoop","Spark"),List("Scala"))
+      for (elem<-iter2){
+         println(elem)
+      }
+
+      val university1=Map("XMU" -> "Ximen University", "THU" -> "Tsinghua University")
+      val university2=Map("PKU"->"Peking University")
+      val iter3=Iterator(university1,university2,List("Hadoop","Spark"),"Scala")
+      for (elem<-iter3){
+         if (elem.isInstanceOf[Map]){
+            for(v<-elem.values)println(v)
+         }else if(elem.isInstanceOf[List]){
+            for(i<-elem) println(elem)
+         }else{println(elem)}
+      }
+   }
+
 
 }
