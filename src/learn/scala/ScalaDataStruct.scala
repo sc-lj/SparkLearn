@@ -173,12 +173,31 @@ object ScalaDataStruct {
       val iter3=Iterator(university1,university2,List("Hadoop","Spark"),"Scala")
       for (elem<-iter3){
          if(elem.isInstanceOf[List[String]]){
-            var newelem=List(elem)
-            for(j<-newelem){
+            for(j<- elem.asInstanceOf[List[String]]){
                println(j)
             }
-         }else{println(elem)}
+         } else if(elem.isInstanceOf[Map[String,String]]){
+            elem.asInstanceOf[Map[String,String]].foreach{case (key, value) => println(value)}
+         } else {
+            println(elem)
+         }
       }
+
+      println("\n")
+      val iter4=Iterator(university1,university2,List("Hadoop","Spark"),"Scala")
+
+      iter4.foreach{
+         iter =>
+            iter match {
+               case ls: List[String] =>
+                  ls.foreach(println)
+               case map: Map[String, String] =>
+                  map.foreach{case (key,value)=>println(value)}
+               case s: String =>
+                  println(s)
+            }
+      }
+
    }
 
 
