@@ -167,15 +167,16 @@ object ScalaDataStruct {
       for (elem<-iter2){
          println(elem)
       }
-
+      println("\n")
       val university1=Map("XMU" -> "Ximen University", "THU" -> "Tsinghua University")
       val university2=Map("PKU"->"Peking University")
       val iter3=Iterator(university1,university2,List("Hadoop","Spark"),"Scala")
       for (elem<-iter3){
-         if (elem.isInstanceOf[Map]){
-            for(v<-elem.values)println(v)
-         }else if(elem.isInstanceOf[List]){
-            for(i<-elem) println(elem)
+         if(elem.isInstanceOf[List[String]]){
+            var newelem=List(elem)
+            for(j<-newelem){
+               println(j)
+            }
          }else{println(elem)}
       }
    }
