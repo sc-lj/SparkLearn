@@ -16,6 +16,8 @@ package learn.scala
 object ScalaConstructor {
    def main(args: Array[String]): Unit = {
       val con=new mainConStudents("lj",age = 27)
+
+
       val con1=new Constudents //主构造器
       val con2=new Constudents("lj")//第一个辅助构造器
       val con3=new Constudents(name = "jack",age = 34)//第二个辅助构造器
