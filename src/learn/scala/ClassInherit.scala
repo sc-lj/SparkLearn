@@ -18,7 +18,7 @@ package learn.scala
   *如果创建了子类的对象，但是又将其赋予了父类类型的变量，则在后续的程序中，又需要将父类类型的变量转换为子类类型的变量，
   * 那么我们需要先使用islnstanceOf判断对象是否是指定类的对象，如果是的话，则可以使用aslnstanceOf将对象转换为指定类型
   * 注意：如果对象是null，则islnstanceOf一定返回false，aslnstanceOf一定返回null
-  * 注意：如果没有用aslnstanceOf先判断对象是否为指定类的实例，就直接用aslnstanceOf转换，则可能会抛出异常
+  * 注意：如果没有用islnstanceOf先判断对象是否为指定类的实例，就直接用aslnstanceOf转换，则可能会抛出异常
   *
   *islnstanceOf只能判读出对象是否是指定类以及其子类的对象，而不能精确判断出，对象就是指定类的对象，而不是其子类的对象
   * 如果要求精确地判断对象就是指定类的对象，那么就只能使用getClass和classOf了
@@ -81,10 +81,12 @@ object ClassInherit {
 
 
    class Person{
+      //成为私有字段，外界无法访问，只有在类内部可以访问该字段。
       private var name="Leo"
       val age:Int=24
       protected val height:Int=124
       protected[this] val weight:Int=68
+      //定义一个getter方法，让子类可以获取父类的私有字段
       def getName:String=name
 
       def sex="M"

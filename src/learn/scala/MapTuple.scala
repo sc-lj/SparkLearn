@@ -7,7 +7,7 @@ package learn.scala
   */
 
 
-object Map_Tuple {
+object MapTuple {
    def main(args: Array[String]): Unit = {
       genMap()
    }

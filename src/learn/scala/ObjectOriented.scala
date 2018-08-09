@@ -13,12 +13,6 @@ package learn.scala
   * 如果不希望生成getter和setter方法，则将field声明为private[this]，只能在该类中使用，
   * 其他类即使继承了，也不能使用
   *
-  *Scala中可以给类定义多个辅助构造函数(constructor)；辅助constructor之间可以相互调用，
-  * 而且必须第一行调用主constructor。
-  * 主constructor是与类名放在一起的，而且类中，没有定义在任何方法或者代码块中的代码，
-  * 就是主constructor的代码。
-  * 如果主constructor传入的参数什么修饰都没有，比如name:String，那么如果类内部的方法使用到了，
-  * 则会声明为private[this] name；否则没有该field，就只能被constructor代码使用而已
   *
   * Scala中，同样可以在类中定义内部类；每个外部类的对象的内部类，都是不同的类
   *
@@ -72,6 +66,8 @@ object ObjectOriented {
       val s21=c2.getStudent("Steve")
       //c1.students+=s21//不能放入到c1中的内部类中，c1.students和c2.students是不同外部实例的不同的类
    }
+
+
    //定义一个类
    class HelloWorld{
       //私有化，使得实例方法无法调用，只有通过专门的类方法给外部一个接口
@@ -79,7 +75,7 @@ object ObjectOriented {
       val age=24//age有getter方法，是public的
       //定义方法
       def sayhello(){println("Hello,"+name)}
-
+      //
       def getName:String=name
    }
 
@@ -162,35 +158,6 @@ object ObjectOriented {
         // Myage>s.Myage//报错了
       }
 
-
-   //辅助constructor函数
-   class Constudents{
-      private var name=""
-      private var age=0
-      //第一个辅助constructor，接受一个参数
-      def this(name:String){
-         this()//调用主的constructor
-         this.name=name//初始化name
-      }
-
-      //第二个辅助constructor，这个辅助constructor接受两个参数
-      def this(name:String,age:Int){
-         //由于上一辅助constructor是接受name的，所以这里可以直接调用上一个辅助constructor
-         this(name)//调用上一个辅助constructor
-         this.age=age//初始化age
-      }
-   }
-
-
-   //主constructor函数
-   class mainConStuents(val name:String,val age:Int){
-      println("your name is "+name+", your age is "+age)
-   }
-
-   //主constructor函数还可以使用默认参数，来给参数默认的值
-   class mainConStudents1(val name:String="Jack",val age:Int=23){
-      println("your name is "+name+", your age is "+age)
-   }
 
    //定义类中类
    //定义班级类
