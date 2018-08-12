@@ -1,9 +1,32 @@
 package learn.scala
+import scala.collection.mutable.LinkedHashSet
 
 object ScalaDataStruct {
    def main(args: Array[String]): Unit = {
-      genIterator()
+      function()
 
+   }
+
+   //集合的函数式编程，Scala的集合类Map、flatMap、reduce、reduceLeft、foreach等这些函数，就是高阶函数，因为可以接收其他函数作为参数。
+   def function(): Unit ={
+      val list= List("Hello World","Jack")
+      val newlist=list.map("name is "+ _)
+      println("newlist"+newlist)
+
+      val newlist1=list.flatMap(_.split(" "))
+      println("newlist1"+newlist1)
+      println(list.map(_.split(" ")))
+
+      val list1=List("I"," have ","a"," beautiful ","house")
+      list1.foreach(println(_))
+
+      val list2=List("Leo","Jack","Peter","Jen")
+      val list3=List(100,89,95,79)
+      val listzip=list2.zip(list3)
+      println("listzip"+listzip)
+
+      val lines=List("Hello me","Hello you")
+      val newlines=lines.flatMap(_.split(" ")).map((_,1)).map(_._2).reduceLeft(_+_)
    }
 
    def genTuple(): Unit ={
@@ -14,6 +37,7 @@ object ScalaDataStruct {
 
    }
 
+   //List 表示一个不可变的列表，Nil表示List的空值
    def genList(): Unit ={
       //声明一个列表
       val intList=List(5,1,2,3,4)
@@ -37,7 +61,7 @@ object ScalaDataStruct {
       val newIntList=intList.reverse.tail
 
       //在列表的头部增加一个元素，0
-      //该操作不会改变intList列表
+      //该操作不会改变原intList列表，生成新的List
       val intListOther = 0::intList
 
       //在列表的头部增加一个元素，5
@@ -93,24 +117,41 @@ object ScalaDataStruct {
 
    }
 
+
    def genSet(): Unit ={
       //集(set)是不重复元素的集合。列表中的元素是按照插入的先后顺序来组织的，但是，”集”中的元素并不会记录元素的插入顺序，而是以“哈希”方法对元素的值进行组织，所以，它允许你快速地找到某个元素。
       //集包括可变集和不可变集，缺省情况下创建的是不可变集，通常我们使用不可变集。
       //虽然可变集和不可变集都有添加或删除元素的操作，但是，二者有很大的区别。对不可变集进行操作，会产生一个新的集，原来的集并不会发生变化。 而对可变集进行操作，改变的是该集本身，
 
-      //声明不可变集
+      //声明不可变集，不保证插入顺序的
       var mySet=Set("Hadoop","Spark")//这里声明变量，需要var，不然后面无法添加新的元素
       mySet +="Scala" //向mySet中增加新的元素
       println(mySet.contains("Scala"))
       println(mySet)
 
-      //声明可变集,需要导入包
+      //声明可变集,需要导入包,这个是不保证插入顺序的
       import scala.collection.mutable.Set
       val myMutableSet=Set("Hadoop","Spark")//这里声明变量可以使用val，因为这是声明的是可变集
       myMutableSet+="Scala"
       println(myMutableSet.contains("Scala"))
       myMutableSet-="Spark"//删除元素
       println(myMutableSet)
+
+      // 保证插入顺序的;LinkedHashSet会用一个链表维护插入顺序
+      import scala.collection.mutable.LinkedHashSet
+      val linkedHashSet= new LinkedHashSet[Int]()
+      linkedHashSet+=1
+      linkedHashSet+=3
+      linkedHashSet+=5
+      println("linkedHashSet"+linkedHashSet)
+
+      //SortedSet 自动根据key来进行排序
+      import scala.collection.mutable.SortedSet
+      val sortedSet=SortedSet("Hadoop","Spark","Python","R")
+      sortedSet+="R"
+      println("sortedSet"+sortedSet)
+      val newsortedSet=sortedSet.map("this is class "+ _)
+      println("newsortedSet"+newsortedSet)
 
    }
 
@@ -192,8 +233,6 @@ object ScalaDataStruct {
          case map: Map[String, String] => map.foreach { case (key, value) => println(value) }
          case s: String => println(s)
       })
-
    }
-
 
 }
