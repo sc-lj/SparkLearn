@@ -26,7 +26,12 @@ package learn.scala
   * apply方法
   * 通常在伴生对象中实现apply方法，并在其中实现构造伴生类的对象的功能；
   * 而创建伴生类的对象时，通常不会使用new Class的方式，而是使用Class()的方式，隐式地调用伴生对象的apply方法，
-  * 这样会让对象创建更加简洁
+  * 这样会让对象创建更加简洁。
+  *
+  * 在Scala中，apply方法和update方法都会遵循相关的约定被调用，约定如下：
+  * 用括号传递给变量(对象)一个或多个参数时，Scala 会把它转换成对apply方法的调用；
+  * 与此相似的，当对带有括号并包括一到若干参数的对象进行赋值时，编译器将调用对象的update方法，
+  * 在调用时，是把括号里的参数和等号右边的对象一起作为update方法的输入参数来执行调用
   *
   * 比如，Array类的伴生对象的apply方法就实现了接受可变数量的参数，并创建一个Array对象的功能。
   *
@@ -34,23 +39,52 @@ package learn.scala
   * Scala要实现枚举功能，则需要用object继承Enumeration类，并且调用Value方法来初始化枚举值
   *
   */
+
+//创建一个伴生对象；单例对象的定义和类的定义很相似，明显的区分是，用object关键字，而不是用class关键字
 object LearnObject {
-   private var eyeNum=2
-   print("this is object")
+   private var lastId = 0  //一个人的身份编号
+   private def newPersonId() = {
+      lastId +=1
+      lastId
+   }
+   def apply(name:String,age:Int): Any = {
+      println("Hello！my name is " + name + ", i'm age olds is " + age)
+   }
 
-   def geteyeNum:Any=eyeNum
+   def main(args: Array[String]){
+      val person1 = new LearnObject("Ziyu")
+      val person2 = new LearnObject("Minxing")
+      person1.info()
+      person2.info()//第二次调用的时候，数字变为2。
 
-   def apply(name:String,age:Int)=new LearnObject(name,age)
+      //在这里可用new声明，也可不用new声明
+      //val person3 = LearnObject
+      val person3 =new LearnObject
+      person3("Jack",12)//调用的是伴生类中apply方法
+
+      val person4=LearnObject("Mike",35)//调用的是伴生对象中的apply方法
+
+   }
 }
 
 
-class LearnObject(val name:String,val age:Int){
-   def sayHello:Any=println("Hi,"+name+", Iguess you are "+age+"years old!"+", and usually you must have "+LearnObject.eyeNum+"eyes")
+//当单例对象与某个类具有相同的名称时，它被称为这个类的“伴生对象”。类和它的伴生对象必须存在于同一个文件中，而且可以相互访问私有成员（字段和方法）。
+//构建伴生类
+class LearnObject {
+   private val id = LearnObject.newPersonId() //调用了伴生对象中的方法
+   private var name = ""
+   def this(name: String) {
+      this()
+      this.name = name
+   }
+   def info() { printf("The id of %s is %d.\n",name,id)}
+
+   def apply(name:String,age:Int): Any ={
+      println("this is "+name+", his/her age is "+age)
+   }
 }
 
-//这两者类似，都能实现同样的功能，但是下面一种比较简洁
-//var l=new LearnObject("Jack",23)
-//var l=LearnObject("Jack",23)
+
 
 
 

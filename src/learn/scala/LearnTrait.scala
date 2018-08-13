@@ -4,7 +4,7 @@ package learn.scala
   * Created by lj on 2018/7/28.
   *
   * 在 Scala中Trait 为重用代码的一个基本单位。一个 Traits 封装了方法和变量，和 Interface（接口）相比，它的方法可以有实现，
-  * 这一点有点和抽象类定义类似。但和类继承不同的是，Scala 中类继承为单一继承，也就是说子类只能有一个父类。当一个类可以和多个 Trait 混合，
+  * 这一点有点和抽象类定义类似。但和类继承不同的是，Scala 中类继承为单一继承，也就是说子类只能有一个父类。但一个类可以和多个 Trait 混合，
   * 这些 Trait 定义的成员变量和方法也就变成了该类的成员变量和方法，由此可以看出 Trait 集合了 Interface 和抽象类的优点，
   * 同时又没有破坏单一继承的原则。
   *
@@ -24,8 +24,7 @@ package learn.scala
   * 在trait中可以定义抽象的field，而trait中的具体方法则可以基于抽象field来编写。但是继承trait的类，则必须覆盖抽象field，提供具体的值。
   *
   *
-  *
-  *为实例混入trait
+  * 为实例混入trait
   * 有时我们可以创建类的对象时，指定该对象混入某个trait，这样只有这个对象混入该trait的方法，而类的其他对象则没有。
   *
   *
@@ -93,7 +92,7 @@ object LearnTrait {
    }
 
    trait HelloTrait{
-      //trait中的方法没有具体实现
+      //定义了一个抽象方法，trait中的方法没有具体实现；
       def sayHello(name:String)
    }
 

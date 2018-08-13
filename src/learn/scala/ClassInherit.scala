@@ -32,7 +32,7 @@ package learn.scala
   *
   *
   * protected 关键字
-  *scala 中的关键字protected关键字来修饰field和method，这样在子类中就不需要super关键字了，直接就可以访问field和method
+  * scala 中的关键字protected关键字来修饰field和method，这样在子类中就不需要super关键字了，直接就可以访问field和method
   * 还可以使用protected[this]，则只能在当前子类对象中访问父类的field和method，无法通过其他子类对象访问父类的field和method
   *
   *
@@ -40,7 +40,7 @@ package learn.scala
   * Scala中，每个类可以有一个主constructor和任意多个辅助constructor，而每个辅助constructor的第一行都必须是调用其他辅助constructor或者主constructor；
   * 因此子类的辅助constructor是一定不可能直接调用父类的constructor的。
   * 只能在子类的主constructor中调用父类的constructor。
-  *注意：如果是父类中接收的参数，比如name和age，子类中接收时，就不要用任何val或者var来修饰了，否则会认为是子类要覆盖父类的field，就要加override关键字
+  * 注意：如果是父类中接收的参数，比如name和age，子类中接收时，就不要用任何val或者var来修饰了，否则会认为是子类要覆盖父类的field，就要加override关键字
   *
   *
   */
@@ -78,9 +78,21 @@ object ClassInherit {
    }
 
 
+   //使用关键字abstract定义一个抽象类,不能直接被实例化
+   abstract class Biological{
+      val attributes:String//字段没有初始化值，就是一个抽象字段;抽象类中定义的字段，只要没有给出初始化值，就表示是一个抽象字段，但是，抽象字段必须要声明类型
+      def info() //抽象方法，不需要使用abstract关键字
+      def greeting(){println("welcome to my new world")}
+   }
 
 
-   class Person{
+   class Person extends Biological {
+      //重写超类字段，需要使用override关键字，否则编译会报错
+      override val attributes= "pepole"
+      //重写超类的抽象方法时，不需要使用override关键字，不过，如果加上override编译也不错报错
+      def info(): Unit ="this is about pepole"
+      //重写超类的非抽象方法，必须使用override关键字
+      override def greeting(): Unit = {println("welcome to my new world")}
       //成为私有字段，外界无法访问，只有在类内部可以访问该字段。
       private var name="Leo"
       val age:Int=24

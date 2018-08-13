@@ -91,6 +91,26 @@ object FunctionsMethod {
       println( userDir() )
 
 
+      //定义匿名函数、Lambda表达式与闭包
+      //“Lambda表达式”的形式如下：(参数) => 表达式 //如果参数只有一个，参数的圆括号可以省略
+      //val myNumFunc: Int=>Int = (num: Int) => num * 2 //这行是我们输入的命令，把匿名函数定义为一个值，赋值给myNumFunc变量
+      //也可以如下声明
+      val myNumFunc = (num: Int) => num * 2
+      //val myNumFunc: Int=>Int = (num) => num * 2
+      println(myNumFunc(3)) //myNumFunc函数调用的时候，需要给出参数的值，这里传入3，得到乘法结果是6
+
+      //闭包函数
+      //在下面示例中，step是一个自由变量，它的值只有在运行的时候才能确定，num的类型是确定的，num的值只有在调用的时候才被赋值。这样的函数，被称为“闭包”，它反映了一个从开放到封闭的过程。
+      def plusStep(step: Int) = (num: Int) => num + step
+      //给step赋值
+      val myFunc = plusStep(3)
+      //调用myFunc函数
+      println(myFunc(10))
+
+      var more = 1
+      val addMore = (x: Int) => x + more
+      println(addMore(10))
+
    }
 
    def exception():Any={
@@ -192,7 +212,6 @@ object FunctionsMethod {
 
    //没有返回"hello,"+name
    def sayhello3(name:String):Unit="hello,"+name
-
 
 
 }
