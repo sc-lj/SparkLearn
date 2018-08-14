@@ -46,11 +46,6 @@ object FunctionsMethod {
       val f=(x:Int)=>x*3
       //带参数的方法不能作为最终表达式出现，函数可以作为最终表达式出现
 
-      //定一个参数列表为空的方法
-      def m2()="spark"
-      //定义一个没有参数列表的方法
-      def m3="spark"
-
       //定义一个参数列表为空的函数
       val f1=()=>"spark"
       //无法定义一个没有参数列表的函数
@@ -112,6 +107,29 @@ object FunctionsMethod {
       println(addMore(10))
 
    }
+
+
+   //高阶函数
+   //普通函数示例
+   def sumInts(a: Int, b: Int): Int = {
+      if(a > b) 0 else a + sumInts(a + 1, b)
+   }
+
+   //转换成高阶函数
+   //定义了一个新的函数sum，以函数f为参数
+   def sum(f: Int => Int, a: Int, b: Int): Int ={
+      if(a > b) 0 else f(a) + sum(f, a+1, b)
+   }
+   //定义了一个新的函数self，该函数的输入是一个整数x，然后直接输出x自身
+   def self(x: Int): Int = x
+   //重新定义sumInts函数
+   def newsumInts(a: Int, b: Int): Int = sum(self, a, b)
+
+
+   //定一个参数列表为空的方法
+   def m2()="spark"
+   //定义一个没有参数列表的方法
+   def m3="spark"
 
    def exception():Any={
       try {
