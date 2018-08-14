@@ -100,7 +100,27 @@ object ScalaDataStruct {
       println(newlist.sum)//求和
       println(newlist.contains(2))//检测列表中是否包含指定的元素
 
+      //使用reduce这种二元操作对集合中的元素进行归约。reduce包含reduceLeft和reduceRight两种操作，前者从集合的头部开始操作，后者从集合的尾部开始操作。
+      newlist1.reduceLeft(_-_)//5-6;4-(-1)
+      newlist1.reduceRight(_-_)//1-2;-1-3;
+
+      //折叠(fold)操作和reduce（归约）操作比较类似。fold操作需要从一个初始的“种子”值开始，并以该值作为上下文，处理集合中的每个元素。
+      //fold有两个变体：foldLeft()和foldRight()，其中，foldLeft()，第一个参数为累计值，集合遍历的方向是从左到右。
+      // foldRight()，第二个参数为累计值，集合遍历的方向是从右到左。
+      // 对于fold()自身而言，遍历的顺序是未定义的，不过，一般都是从左到右遍历。
+      list1.fold(10)(_-_)//初始种子值是10；另一个参数是用于计算结果的累计函数;4
+      list1.foldLeft(10)(_-_)//4;10-*
+      list1.foldRight(10)(_-_)//-8;*-10
+
+
       val newList=newlist.sorted//排序
+
+      //列表的遍历
+      for(elem<-newlist)println(elem)
+      newlist.foreach(elem=>println(elem))
+      newlist foreach println
+      newlist.foreach(println)
+
 
       //dropWhile(p: (A) => Boolean): List[A]   从左向右丢弃元素，直到条件p不成立
       //endsWith[B](that: Seq[B]): Boolea   检测列表是否以指定序列结尾
@@ -109,10 +129,19 @@ object ScalaDataStruct {
       // intersect(that: Seq[A]): List[A] 计算多个集合的交集
 
       var b=List("woe","wow","adabosting","bostong","randormforest")
+      //遍历一个集合并从中获取满足指定条件的元素组成一个新的集合。Scala中可以通过filter操作来实现。
       println(b.filter(_.length>=4))
       //等价于
       println(b.filter(x=>x.length>=4))
       println(b.indexOf("bost",3))
+
+      //map操作是针对集合的典型变换操作，它将某个函数应用到集合中的每个元素，并产生一个结果集合。
+      val newb=b.map(s=>s.toUpperCase)
+      println(newb)
+
+      //flatMap是map的一种扩展。在flatMap中，我们会传入一个函数，该函数对每个输入都会返回一个集合（而不是一个元素），然后，flatMap把生成的多个集合“拍扁”成为一个集合。
+      b.flatMap(s=>s.toList)
+      b flatMap(s=>s.toList)
 
 
    }
@@ -167,6 +196,8 @@ object ScalaDataStruct {
       val xmu=if(university.contains("XMU")) university("XMU") else 0
       println(xmu)
 
+      //使用filter过滤函数
+      val universityOfP = university filter (kv=>kv._2 startsWith "P")
 
       //定义可变映射
       import scala.collection.mutable.Map
@@ -181,6 +212,8 @@ object ScalaDataStruct {
       for ((k,v)<-university1){
          printf("Code is : %s and name is: %s\n",k,v)
       }
+      university1 foreach {case (k,v)=>println(k+":"+v)}
+      university1 foreach {kv=>println(kv._1+":"+kv._2)}
 
       //遍历键
       for(k<-university1.keys){
