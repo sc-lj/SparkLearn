@@ -95,7 +95,7 @@ object ScalaParamCon {
       def writer(content:String)=println(content)
    }
 
-   implicit val signPen=new SignPen
+   implicit val signPen: SignPen =new SignPen
 
    def signForExam(name:String)(implicit signPen: SignPen){
       signPen.writer(name+"come to exam in time")

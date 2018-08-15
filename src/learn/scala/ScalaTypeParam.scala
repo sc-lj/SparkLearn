@@ -193,9 +193,10 @@ object ScalaTypeParam {
 
    //只要专家级别的名片就可以进入会场，如果大师级别的过来了，当然可以
    //-T：逆变
-   class Card[-T](val name:String)
+   class Card1[-T](val name:String)
+
    //Professional及其父类都可以进来
-   def enterMeet(card:Card[Professional]): Unit ={
+   def enterMeet(card:Card1[Professional]): Unit ={
       println("welcome to have this meeting!")
    }
 
