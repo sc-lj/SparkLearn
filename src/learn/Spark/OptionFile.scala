@@ -2,6 +2,12 @@ package learn.Spark
 
 import java.io.File
 
+/*
+* 在使用Spark读取文件时，需要说明以下几点：
+* 如果使用了本地文件系统的路径，那么，必须要保证在所有的worker节点上，也都能够采用相同的路径访问到该文件，比如，可以把该文件拷贝到每个worker节点上，或者也可以使用网络挂载共享文件系统。
+*
+*
+* */
 
 object OptionFile {
     def main(args: Array[String]): Unit = {
