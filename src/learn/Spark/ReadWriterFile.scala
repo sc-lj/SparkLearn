@@ -1,4 +1,4 @@
-package learn.scala
+package learn.Spark
 
 //参考网站：http://dblab.xmu.edu.cn/blog/spark/
 
@@ -10,14 +10,15 @@ package learn.scala
 *
 * */
 
-import java.io.{PrintWriter,FileWriter}
-import scala.io.Source
-import java.io.RandomAccessFile
-import java.io.{File,FileInputStream}
+import java.io._
 
-import org.apache.spark.{SparkConf,SparkContext}
+import org.apache.spark.{SparkConf, SparkContext}
+
+import scala.io.Source
 
 object ReadWriterFile {
+   val conf=new SparkConf().setMaster("local").setAppName("ReadWriterFile")
+   val sc=new SparkContext(conf)
     def main(args: Array[String]): Unit = {
 
 
@@ -86,8 +87,6 @@ object ReadWriterFile {
     }
 
     def readCsvFile(filename:String): Unit ={
-        val conf=new SparkConf().setMaster("local").setAppName("ReadWriterFile")
-        val sc=new SparkContext(conf)
         val csv=sc.textFile("out.csv")
         val data=csv.map(line=>line.split(",").map(elem=>elem.trim))
         val header=new SimpleCsvHeader(data.take(1)(0))// 取出第一行来创建header
@@ -95,6 +94,21 @@ object ReadWriterFile {
         val users=rows.map(row=>header(row,"user"))
         val usersByHits=rows.map(row=>header(row,"user")->header(row,"hits").toInt)
     }
+
+   def saveFile(): Unit ={
+      val files=sc.textFile("src/learn/Spark/new_sohu.txt")
+      files.saveAsTextFile("/src/learn/Spark/sohu.txt")
+   }
+
+
+   //分布式文件系统HDFS的数据读写
+   def readHdfs(): Unit ={
+      //word.txt存放在Hadoop默认的文件路径中。hadoop系统用户名称
+      val files=sc.textFile("hdfs://localhost:9000/user/hadoop/word.txt")
+      val textFile = sc.textFile("/user/hadoop/word.txt")
+      //val textFile = sc.textFile("word.txt")
+      textFile.saveAsTextFile("writeback.txt")
+   }
 
 
 }
