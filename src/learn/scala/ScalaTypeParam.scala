@@ -98,7 +98,7 @@ object ScalaTypeParam {
       val jack1=new Card[Master]("jack1")
       enterMeet(jack1)
       //逆变
-      val jack2=new Card[Professional]("jack2")
+      val jack2=new Card1[Professional]("jack2")
       enterMeet(jack2)
 
 
