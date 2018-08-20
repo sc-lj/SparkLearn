@@ -12,6 +12,23 @@ package learn.Spark
 * 第二种方法是，使用编程接口，构造一个schema并将其应用在已知的RDD上。
 *
 *
+* Spark SQL可以支持Parquet、JSON、Hive等数据源，并且可以通过JDBC连接外部数据源。
+* Parquet是一种流行的列式存储格式，可以高效地存储具有嵌套字段的记录。Parquet是语言无关的，而且不与任何一种数据处理框架绑定在一起，
+* 适配多种语言和组件，能够与Parquet配合的组件有:
+* - 查询引擎: Hive, Impala, Pig, Presto, Drill, Tajo, HAWQ, IBM Big SQL；
+* - 计算框架: MapReduce, Spark, Cascading, Crunch, Scalding, Kite；
+* - 数据模型: Avro, Thrift, Protocol Buffers, POJOs。
+*
+*
+* 通过JDBC连接数据库：
+* Spark支持通过JDBC方式连接到其他数据库获取数据生成DataFrame。
+* 下面以连接MySQL为例。
+* 需要下载一个MySQL的JDBC驱动（http://dev.mysql.com/downloads/connector/j/）
+* 需要将该驱动解压，并把该驱动程序拷贝到spark的安装目录
+*
+*
+*
+*
 * */
 
 import org.apache.spark.sql.SparkSession
@@ -22,6 +39,7 @@ import org.apache.spark.sql.{Encoder,Row}
 
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.Row
+import java.util.Properties
 
 object LearnSQL {
 
@@ -31,7 +49,49 @@ object LearnSQL {
 
 
       //dataFrame()
-      rdd2DataFrame1()
+      //rdd2DataFrame1()
+      //readWriteParquet()
+      linkMySQl()
+
+   }
+
+   // spark 连接MySQL
+   def linkMySQl(): Unit ={
+      val spark=SparkSession.builder().getOrCreate()
+      import spark.implicits._
+      val jdbcDF = spark.read.format("jdbc").option("url", "jdbc:mysql://127.0.0.1:3306/spark").option("driver","com.mysql.jdbc.Driver").option("dbtable", "student").option("user", "root").option("password", "lj123").load()
+      jdbcDF.show()
+
+      //插入数据
+      val studentRDD=spark.sparkContext.parallelize(Array("3 Rongcheng M 26","4 Guanhua M 27")).map(_.split(" "))
+      //下面要设置模式信息
+      val schema=StructType(List(StructField("id",IntegerType,true),StructField("name",StringType,true),StructField("gender",StringType,true),StructField("age",IntegerType,true)))
+      //下面创建Row对象，每个Row对象都是rowRDD中的一行
+      val rowRDD=studentRDD.map(p=>Row(p(0).toInt,p(1).trim,p(2).trim,p(3).toInt))
+      //建立起Row对象和模式之间的对应关系，也就是把数据和模式对应起来
+      val studentDF=spark.createDataFrame(rowRDD,schema)
+      //下面创建一个prop变量用来保存JDBC连接参数
+      val prop=new Properties()
+      prop.put("user","root")
+      prop.put("password","lj123")
+      prop.put("driver","com.mysql.jdbc.Driver")//表示驱动程序是com.mysql.jdbc.Driver
+      //下面就可以连接数据库，采用append模式，表示追加记录到数据库spark的student表中
+      studentDF.write.mode("append").jdbc("jdbc:mysql://127.0.0.1:3306/spark","spark.student",prop)
+
+   }
+
+   //读写Parquet
+   def readWriteParquet(): Unit ={
+      val spark=SparkSession.builder().getOrCreate()
+      import spark.implicits._
+      val sparkRDD=spark.read.parquet("./src/learn/Spark/users.parquet")
+      sparkRDD.createOrReplaceTempView("people")
+      val nameDF=spark.sql("SELECT * FROM people")
+      nameDF.foreach(line=>println("Name: "+line(0)+" favorite: "+line(1)))
+
+      //将DataFrame保存成parquet文件。
+      val peopleDF=spark.read.json("./src/learn/Spark/people.json")
+      peopleDF.write.parquet("./src/learn/Spark/people.parquet")
 
    }
 
