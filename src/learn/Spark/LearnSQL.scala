@@ -20,6 +20,9 @@ import org.apache.spark.{SparkContext,SparkConf}
 import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.{Encoder,Row}
 
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.Row
+
 object LearnSQL {
 
    def main(args: Array[String]): Unit = {
@@ -28,7 +31,53 @@ object LearnSQL {
 
 
       //dataFrame()
-      rdd2DataFrame()
+      rdd2DataFrame1()
+
+   }
+
+   //把RDD保存成文件
+   def rdd2File(): Unit ={
+      val spark =SparkSession.builder().getOrCreate()
+      import spark.implicits._
+
+      //第一种将rdd保存为文件的方法
+      val peopleDF = spark.read.format("json").load("./src/learn/Spark/people.json")
+      //write.format()支持输出 json,parquet, jdbc, orc, libsvm, csv, text等格式文件，如果要输出文本文件，可以采用write.format(“text”)，
+      // 但是，需要注意，只有select()中只存在一个列时，才允许保存成文本文件，如果存在两个列，比如select(“name”, “age”)，就不能保存成文本文件。
+      //在./src/learn/Spark/ 目录下存在newpeople.csv文件夹（注意不是文件）。
+      peopleDF.select("name","age").write.format("csv").save("./src/learn/Spark/newpeople.csv")
+
+      //第二种将rdd保存为文件的方法
+      peopleDF.rdd.saveAsTextFile("./src/learn/Spark/newpeople.txt")
+
+
+      //又将newpeople.csv文件夹中的数据加载到rdd中。
+      val conf=new SparkConf().setMaster("local").setAppName("LearnSQL")
+      val sc=new SparkContext(conf)
+      val textFile = sc.textFile("file:///usr/local/spark/mycode/newpeople.csv")
+
+
+   }
+
+   //使用编程方式定义RDD模式;当无法提前定义case class时，就需要采用编程方式定义RDD模式。
+   def rdd2DataFrame1(): Unit ={
+      val spark =SparkSession.builder().getOrCreate()
+      import spark.implicits._
+      val peopleRDD=spark.sparkContext.textFile("./src/learn/Spark/people.txt")
+      //定义一个模式字符串
+      val schemaString="name age"
+      //根据模式字符串生成模式
+      val fields=schemaString.split(" ").map(fieldName=>StructField(fieldName,StringType,nullable = true))
+      val schema=StructType(fields)
+      //从上面信息可以看出，schema描述了模式信息，模式中包含name age两个字段
+      val rowRdd=peopleRDD.map(_.split(",")).map(attributes=>Row(attributes(0),attributes(1).trim))
+      val peopleDF=spark.createDataFrame(rowRdd,schema)
+      //必须注册为临时表才能供下面查询使用
+      peopleDF.createOrReplaceTempView("people")
+      val results=spark.sql("SELECT name,age FROM people")
+      results.map(attributes=>"name: "+attributes(0)+","+"age: "+attributes(1)).show()
+
+
 
    }
 
