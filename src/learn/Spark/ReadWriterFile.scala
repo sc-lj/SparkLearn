@@ -20,7 +20,7 @@ object ReadWriterFile {
    val conf=new SparkConf().setMaster("local").setAppName("ReadWriterFile")
    val sc=new SparkContext(conf)
     def main(args: Array[String]): Unit = {
-
+      readCsvFile("")
 
     }
 
