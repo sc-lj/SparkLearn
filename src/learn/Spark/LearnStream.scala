@@ -16,6 +16,10 @@ package learn.Spark
 
 import org.apache.spark.{SparkContext,SparkConf}
 import org.apache.spark.streaming._
+import org.apache.spark.storage.StorageLevel
+import scala.io.Source
+import java.net.ServerSocket
+import java.io.PrintWriter
 
 object LearnStream {
    def main(args: Array[String]): Unit = {
@@ -39,7 +43,48 @@ object LearnStream {
       src.awaitTermination()
    }
 
+   //读取套接字流;
+   // 通过Socket端口监听并接收数据，然后进行相应处理。
+   def  socketStream(hostname:String="local",port:Int=9999): Unit ={
+      StreamingExamples.setStreamingLogLevels()
+      val conf=new SparkConf().setAppName("LearnStream").setMaster("local[2]")
+      val ssc=new StreamingContext(conf,Seconds(1))
+      //StorageLevel.MEMORY_AND_DISK_SER是RDD的存储级别中的一个。内存不足时，存储在磁盘上
+      val lines=ssc.socketTextStream(hostname,port.toInt,StorageLevel.MEMORY_AND_DISK_SER)
+      val words=lines.flatMap(_.split(" "))
+      val wordCount=words.map(x=>(x,1)).reduceByKey(_+_)
+      wordCount.print()
+      ssc.start()
+      ssc.awaitTermination()
+   }
 
+   def index(length:Int):Int={
+      val rdm=new java.util.Random
+      rdm.nextInt(length)
+   }
 
+   //读取文件，用来产生Socket数据源
+   def dataSourceSocket(filename:String,port:Int=9999): Unit ={
+      val lines=Source.fromFile(filename).getLines().toList
+      val rowCount=lines.length
+      val lisenter=new ServerSocket(port.toInt)
+
+      while (true){
+         val socket=lisenter.accept()
+         new Thread(){
+            override def run(){
+               val out=new PrintWriter(socket.getOutputStream,true)
+               while (true){
+                  Thread.sleep(3)
+                  val content= lines(index(rowCount))
+                  println(content)
+                  out.write(content+"\n")
+                  out.flush()
+               }
+               socket.close()
+            }
+         }.start()
+      }
+   }
 
 }
